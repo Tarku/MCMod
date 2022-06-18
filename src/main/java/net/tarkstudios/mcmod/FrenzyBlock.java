@@ -33,18 +33,10 @@ public class FrenzyBlock extends Block {
     }
     public static final IntProperty COLOR = IntProperty.of("color", 0, 15);
     public static final BooleanProperty LIT = BooleanProperty.of("lit");
-    public static final FrenzyBlock FRENZY_BLOCK = new FrenzyBlock(FabricBlockSettings.of(Material.STONE).strength(1.5f).luminance(createLightLevelFromLitBlockState(10)));
+    public static final FrenzyBlock FRENZY_BLOCK = new FrenzyBlock(FabricBlockSettings.of(Material.STONE).strength(1.5f).luminance(createLightLevelFromLitBlockState(15)));
 
     private static ToIntFunction<BlockState> createLightLevelFromLitBlockState(int litLevel) {
         return state -> state.get(LIT) != false ? litLevel : 0;
-    }
-    @Override
-    public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos)
-    {
-        if (state.get(LIT))
-            return 1.0f;
-        else
-            return 0.0f;
     }
     @Override
     public ActionResult onUse(BlockState blockState, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit)
@@ -78,15 +70,6 @@ public class FrenzyBlock extends Block {
             if (bl) {
                 world.createAndScheduleBlockTick(pos, this, 4);
             } else {
-                world.playSound(
-                        null, // Player - if non-null, will play sound for every nearby player *except* the specified player
-                        pos, // The position of where the sound will come from
-                        MCMod.FRENZY_BLOCK_SOUND_EVENT, // The sound that will play
-                        SoundCategory.BLOCKS, // This determines which of the volume sliders affect this sound
-                        1f, //Volume multiplier, 1 is normal, 0.5 is half volume, etc
-                        1f // Pitch multiplier, 1 is normal, 0.5 is half pitch, etc
-                );
-
                 world.setBlockState(pos, (BlockState)state.cycle(LIT), Block.NOTIFY_LISTENERS);
             }
         }
