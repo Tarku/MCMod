@@ -1,5 +1,7 @@
 {
   "variants": {
-    "": { "model": "mcmod:block/frenzy_block" }
+    "special=0": { "model": "mcmod:block/frenzy_block" },
+    "special=1": { "model": "mcmod:block/frenzy_block1" },
+    "special=2": { "model": "mcmod:block/frenzy_block2" }
   }
 }
