@@ -1,7 +1,20 @@
 {
   "variants": {
-    "special=0": { "model": "mcmod:block/frenzy_block" },
-    "special=1": { "model": "mcmod:block/frenzy_block1" },
-    "special=2": { "model": "mcmod:block/frenzy_block2" }
+    "special=0": { "model": "mcmod:block/white_frenzy_block" },
+    "special=1": { "model": "mcmod:block/orange_frenzy_block" },
+    "special=2": { "model": "mcmod:block/magenta_frenzy_block" },
+    "special=3": { "model": "mcmod:block/light_blue_frenzy_block" },
+    "special=4": { "model": "mcmod:block/yellow_frenzy_block" },
+    "special=5": { "model": "mcmod:block/lime_frenzy_block" },
+    "special=6": { "model": "mcmod:block/pink_frenzy_block" },
+    "special=7": { "model": "mcmod:block/gray_frenzy_block" },
+    "special=8": { "model": "mcmod:block/light_gray_frenzy_block" },
+    "special=9": { "model": "mcmod:block/cyan_frenzy_block" },
+    "special=10": { "model": "mcmod:block/purple_frenzy_block" },
+    "special=11": { "model": "mcmod:block/blue_frenzy_block" },
+    "special=12": { "model": "mcmod:block/brown_frenzy_block" },
+    "special=13": { "model": "mcmod:block/green_frenzy_block" },
+    "special=14": { "model": "mcmod:block/red_frenzy_block" },
+    "special=15": { "model": "mcmod:block/black_frenzy_block" }
   }
 }
