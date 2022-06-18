@@ -1,0 +1,6 @@
+{
+  "parent": "block/cube_all",
+  "textures": {
+    "all": "mcmod:block/magenta_frenzy_block"
+  }
+}

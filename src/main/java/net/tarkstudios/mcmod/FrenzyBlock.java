@@ -3,6 +3,7 @@ package net.tarkstudios.mcmod;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
@@ -11,37 +12,51 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.random.Random;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
+
+import java.util.function.ToIntFunction;
 
 public class FrenzyBlock extends Block {
     public FrenzyBlock(Settings settings) {
         super(settings);
-        setDefaultState(getStateManager().getDefaultState().with(SPECIAL, 0));
+        setDefaultState(getStateManager().getDefaultState().with(COLOR, 0));
         setDefaultState(getStateManager().getDefaultState().with(LIT, false));
     }
-    public static final IntProperty SPECIAL = IntProperty.of("special", 0, 2);
+    public static final IntProperty COLOR = IntProperty.of("color", 0, 15);
     public static final BooleanProperty LIT = BooleanProperty.of("lit");
-    public static final FrenzyBlock FRENZY_BLOCK = new FrenzyBlock(FabricBlockSettings.of(Material.STONE).strength(1.5f));
+    public static final FrenzyBlock FRENZY_BLOCK = new FrenzyBlock(FabricBlockSettings.of(Material.STONE).strength(1.5f).luminance(createLightLevelFromLitBlockState(10)));
 
+    private static ToIntFunction<BlockState> createLightLevelFromLitBlockState(int litLevel) {
+        return state -> state.get(LIT) != false ? litLevel : 0;
+    }
+    @Override
+    public float getAmbientOcclusionLightLevel(BlockState state, BlockView world, BlockPos pos)
+    {
+        if (state.get(LIT))
+            return 1.0f;
+        else
+            return 0.0f;
+    }
     @Override
     public ActionResult onUse(BlockState blockState, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit)
     {
         if(!world.isClient)
         {
-            player.sendMessage(Text.of("Added 1 to special"), false);
 
-            if(world.getBlockState(pos).get(SPECIAL) < 2)
+            if(world.getBlockState(pos).get(COLOR) < 15)
             {
-                world.setBlockState(pos, blockState.with(SPECIAL, world.getBlockState(pos).get(SPECIAL) + 1));
+                world.setBlockState(pos, blockState.with(COLOR, world.getBlockState(pos).get(COLOR) + 1));
             } else {
-                world.setBlockState(pos, blockState.with(SPECIAL, 0));
+                world.setBlockState(pos, blockState.with(COLOR, 0));
             }
         }
         return ActionResult.SUCCESS;
@@ -71,6 +86,7 @@ public class FrenzyBlock extends Block {
                         1f, //Volume multiplier, 1 is normal, 0.5 is half volume, etc
                         1f // Pitch multiplier, 1 is normal, 0.5 is half pitch, etc
                 );
+
                 world.setBlockState(pos, (BlockState)state.cycle(LIT), Block.NOTIFY_LISTENERS);
             }
         }
@@ -86,7 +102,7 @@ public class FrenzyBlock extends Block {
     @Override
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder)
     {
-        builder.add(SPECIAL);
+        builder.add(COLOR);
         builder.add(LIT);
     }
 }

@@ -1,0 +1,23 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "#i#",
+    "iGi",
+    "#i#"
+  ],
+  "key": {
+    "#": {
+      "item": "minecraft:light_blue_stained_glass"
+    },
+    "i": {
+      "item": "minecraft:iron_ingot"
+    },
+    "G": {
+      "item": "minecraft:glowstone"
+    }
+  },
+  "result": {
+    "item": "mcmod:frenzy_block",
+    "count": 9
+  }
+}
