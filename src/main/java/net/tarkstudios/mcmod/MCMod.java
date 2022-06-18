@@ -3,6 +3,7 @@ package net.tarkstudios.mcmod;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.minecraft.sound.SoundEvent;
 import net.tarkstudios.mcmod.FrenzyBlock;
 import net.minecraft.block.Material;
 import net.minecraft.item.BlockItem;
@@ -19,6 +20,8 @@ public class MCMod implements ModInitializer {
 	// It is considered best practice to use your mod id as the logger's name.
 	// That way, it's clear which mod wrote info, warnings, and errors.
 	public static final Logger LOGGER = LoggerFactory.getLogger("mcmod");
+	public static final Identifier FRENZY_BLOCK_SOUND_ID = new Identifier("mcmod:frenzy_block_sound");
+	public static SoundEvent FRENZY_BLOCK_SOUND_EVENT = new SoundEvent(FRENZY_BLOCK_SOUND_ID);
 
 	@Override
 	public void onInitialize() {
@@ -28,6 +31,7 @@ public class MCMod implements ModInitializer {
 		Registry.register(Registry.BLOCK, new Identifier("mcmod", "frenzy_block"), FRENZY_BLOCK);
 		Registry.register(Registry.ITEM, new Identifier("mcmod", "frenzy_block"), new BlockItem(FRENZY_BLOCK, new FabricItemSettings().group(ItemGroup.BUILDING_BLOCKS)));
 
+		Registry.register(Registry.SOUND_EVENT, MCMod.FRENZY_BLOCK_SOUND_ID, FRENZY_BLOCK_SOUND_EVENT);
 
 		LOGGER.info("Hello Fabric world!");
 	}

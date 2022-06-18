@@ -7,6 +7,7 @@ import net.minecraft.block.Material;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
@@ -23,6 +24,7 @@ public class FrenzyBlock extends Block {
     public FrenzyBlock(Settings settings) {
         super(settings);
         setDefaultState(getStateManager().getDefaultState().with(SPECIAL, 0));
+        setDefaultState(getStateManager().getDefaultState().with(LIT, false));
     }
     public static final IntProperty SPECIAL = IntProperty.of("special", 0, 2);
     public static final BooleanProperty LIT = BooleanProperty.of("lit");
@@ -61,6 +63,14 @@ public class FrenzyBlock extends Block {
             if (bl) {
                 world.createAndScheduleBlockTick(pos, this, 4);
             } else {
+                world.playSound(
+                        null, // Player - if non-null, will play sound for every nearby player *except* the specified player
+                        pos, // The position of where the sound will come from
+                        MCMod.FRENZY_BLOCK_SOUND_EVENT, // The sound that will play
+                        SoundCategory.BLOCKS, // This determines which of the volume sliders affect this sound
+                        1f, //Volume multiplier, 1 is normal, 0.5 is half volume, etc
+                        1f // Pitch multiplier, 1 is normal, 0.5 is half pitch, etc
+                );
                 world.setBlockState(pos, (BlockState)state.cycle(LIT), Block.NOTIFY_LISTENERS);
             }
         }
@@ -77,5 +87,6 @@ public class FrenzyBlock extends Block {
     protected void appendProperties(StateManager.Builder<Block, BlockState> builder)
     {
         builder.add(SPECIAL);
+        builder.add(LIT);
     }
 }
